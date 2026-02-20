@@ -31,7 +31,8 @@ const AuthScreen = ({ navigation, setIsLoggedIn }) => {
             await AsyncStorage.setItem('token', res.data.token);
             setIsLoggedIn(true);
         } catch (err) {
-            Alert.alert('Error', err.response?.data?.error || 'Authentication failed');
+            const errorMessage = err.response?.data?.error || 'Authentication failed';
+            Alert.alert('Error', errorMessage);
         }
     };
 

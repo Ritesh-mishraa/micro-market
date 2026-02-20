@@ -25,14 +25,11 @@ export const AuthProvider = ({ children }) => {
 
     const login = async (email, password) => {
         try {
-            console.log("AuthContext: Sending login request to:", api.defaults.baseURL + '/auth/login');
             const res = await api.post('/auth/login', { email, password });
-            console.log("AuthContext: Login response:", res.data);
             localStorage.setItem('token', res.data.token);
             setUser(res.data.user);
             return res.data;
         } catch (error) {
-            console.error("AuthContext: Login request failed", error);
             throw error;
         }
     };

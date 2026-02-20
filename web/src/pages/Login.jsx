@@ -15,17 +15,12 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Login form submitted", formData);
         try {
-            console.log("Calling login function...");
             await login(formData.email, formData.password);
-            console.log("Login successful, navigating to home");
             navigate('/');
         } catch (err) {
-            console.error("Login error:", err);
             const errorMsg = err.response?.data?.error || 'Login failed';
             setError(errorMsg);
-            alert(`Login failed: ${errorMsg}`);
         }
     };
 

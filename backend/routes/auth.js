@@ -31,32 +31,22 @@ router.post('/register', async (req, res) => {
 // Login
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;
-    console.log(`[Login] Attempting login for: ${email}`);
+
     try {
-        console.log('[Login] Finding user in DB...');
         let user = await User.findOne({ email });
-        console.log(`[Login] User found: ${user ? 'Yes' : 'No'}`);
+        if (!user) return res.status(400).json({ error: 'Invalid Credentials' });
 
-        if (!user) return res.status(400).json({ error: 'Invalid Credentials (User not found)' });
-
-        console.log('[Login] Verifying password...');
         const isMatch = await bcrypt.compare(password, user.password);
-        console.log(`[Login] Password match: ${isMatch}`);
-
-        if (!isMatch) return res.status(400).json({ error: 'Invalid Credentials (Password mismatch)' });
+        if (!isMatch) return res.status(400).json({ error: 'Invalid Credentials' });
 
         const payload = { user: { id: user.id } };
-        console.log('[Login] Signing JWT...');
+
         jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '5d' }, (err, token) => {
-            if (err) {
-                console.error('[Login] JWT Sign Error:', err);
-                throw err;
-            }
-            console.log('[Login] Token generated, sending response.');
+            if (err) throw err;
             res.json({ token, user: { id: user.id, username: user.username, email, favorites: user.favorites } });
         });
     } catch (err) {
-        console.error('[Login] Server Error:', err.message);
+        console.error(err.message);
         res.status(500).send('Server error');
     }
 });
