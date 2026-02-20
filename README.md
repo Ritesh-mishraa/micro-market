@@ -54,6 +54,21 @@ npx expo start
 Scan the QR code with Expo Go app.
 *Note: Ensure your mobile device is on the same network as your PC. Update `BASE_URL` in `mobile/src/api/axios.js` to your PC's IP address if needed.*
 
+## Deployment
+
+### Mobile App (Easy Evaluation)
+To evaluate the mobile app without setting up a full development environment:
+1.  Navigate to `mobile` directory.
+2.  Install EAS CLI: `npm install -g eas-cli`
+3.  Login to Expo: `eas login`
+4.  Publish update:
+    ```bash
+    eas update --branch production
+    ```
+5.  This will publish the JS bundle to Expo's servers.
+
+For full deployment instructions (Render + Expo Build), see [DEPLOYMENT.md](DEPLOYMENT.md).
+
 ## API Endpoints
 
 ### Auth
